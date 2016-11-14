@@ -20,7 +20,7 @@
 Name:           php-pecl-%{pecl_name}
 Summary:        APCu Backwards Compatibility Module
 Version:        1.0.3
-Release:        3%{?dist}
+Release:        4%{?dist}
 Source0:        http://pecl.php.net/get/%{proj_name}-%{version}.tgz
 
 License:        PHP
@@ -165,6 +165,9 @@ REPORT_EXIT_STATUS=1 \
 
 
 %changelog
+* Mon Nov 14 2016 Remi Collet <remi@fedoraproject.org> - 1.0.3-4
+- rebuild for https://fedoraproject.org/wiki/Changes/php71
+
 * Sun Jun 26 2016 Remi Collet <remi@fedoraproject.org> - 1.0.3-3
 - drop SCL stuff for Fedora review
 
