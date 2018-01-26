@@ -3,12 +3,16 @@
 #
 # remirepo spec file for php-pecl-apcu-bc
 #
-# Copyright (c) 2015-2016 Remi Collet
+# Copyright (c) 2015-2018 Remi Collet
 # License: CC-BY-SA
 # http://creativecommons.org/licenses/by-sa/4.0/
 #
 # Please, preserve the changelog entries
 #
+
+# we don't want -z defs linker flag
+%undefine _strict_symbol_defs_build
+
 %global proj_name  apcu_bc
 %global pecl_name  apcu-bc
 %global ext_name   apc
@@ -20,7 +24,7 @@
 Name:           php-pecl-%{pecl_name}
 Summary:        APCu Backwards Compatibility Module
 Version:        1.0.3
-Release:        8%{?dist}
+Release:        9%{?dist}
 Source0:        http://pecl.php.net/get/%{proj_name}-%{version}.tgz
 
 License:        PHP
@@ -165,6 +169,9 @@ REPORT_EXIT_STATUS=1 \
 
 
 %changelog
+* Fri Jan 26 2018 Remi Collet <remi@remirepo.net> - 1.0.3-9
+- undefine _strict_symbol_defs_build
+
 * Tue Oct 03 2017 Remi Collet <remi@fedoraproject.org> - 1.0.3-8
 - rebuild for https://fedoraproject.org/wiki/Changes/php72
 
