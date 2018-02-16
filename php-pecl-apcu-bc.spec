@@ -23,14 +23,15 @@
 
 Name:           php-pecl-%{pecl_name}
 Summary:        APCu Backwards Compatibility Module
-Version:        1.0.3
-Release:        10%{?dist}
+Version:        1.0.4
+Release:        1%{?dist}
 Source0:        http://pecl.php.net/get/%{proj_name}-%{version}.tgz
 
 License:        PHP
 Group:          Development/Languages
 URL:            http://pecl.php.net/package/APCu
 
+BuildRequires:  gcc
 BuildRequires:  php-devel > 7
 BuildRequires:  php-pear
 BuildRequires:  php-pecl-apcu-devel >= 5.1.2
@@ -169,6 +170,9 @@ REPORT_EXIT_STATUS=1 \
 
 
 %changelog
+* Fri Feb 16 2018 Remi Collet <remi@remirepo.net> - 1.0.4-1
+- update to 1.0.4 (stable, no change)
+
 * Fri Feb 09 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 
