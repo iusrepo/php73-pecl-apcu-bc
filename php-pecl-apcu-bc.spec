@@ -28,7 +28,6 @@ Release:        3%{?dist}
 Source0:        http://pecl.php.net/get/%{proj_name}-%{version}.tgz
 
 License:        PHP
-Group:          Development/Languages
 URL:            http://pecl.php.net/package/APCu
 
 BuildRequires:  gcc
