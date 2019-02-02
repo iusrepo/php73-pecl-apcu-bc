@@ -24,7 +24,7 @@
 Name:           php-pecl-%{pecl_name}
 Summary:        APCu Backwards Compatibility Module
 Version:        1.0.4
-Release:        3%{?dist}
+Release:        4%{?dist}
 Source0:        http://pecl.php.net/get/%{proj_name}-%{version}.tgz
 
 License:        PHP
@@ -169,6 +169,9 @@ REPORT_EXIT_STATUS=1 \
 
 
 %changelog
+* Sat Feb 02 2019 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
+
 * Thu Oct 11 2018 Remi Collet <remi@remirepo.net> - 1.0.4-3
 - Rebuild for https://fedoraproject.org/wiki/Changes/php73
 
