@@ -3,7 +3,7 @@
 #
 # remirepo spec file for php-pecl-apcu-bc
 #
-# Copyright (c) 2015-2018 Remi Collet
+# Copyright (c) 2015-2019 Remi Collet
 # License: CC-BY-SA
 # http://creativecommons.org/licenses/by-sa/4.0/
 #
@@ -23,8 +23,8 @@
 
 Name:           php-pecl-%{pecl_name}
 Summary:        APCu Backwards Compatibility Module
-Version:        1.0.4
-Release:        4%{?dist}
+Version:        1.0.5
+Release:        1%{?dist}
 Source0:        http://pecl.php.net/get/%{proj_name}-%{version}.tgz
 
 License:        PHP
@@ -169,6 +169,9 @@ REPORT_EXIT_STATUS=1 \
 
 
 %changelog
+* Wed Feb 20 2019 Remi Collet <remi@remirepo.net> - 1.0.5-1
+- update to 1.0.5
+
 * Sat Feb 02 2019 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
 
