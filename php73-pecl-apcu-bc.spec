@@ -1,3 +1,5 @@
+# IUS spec file for php73-pecl-apcu-bc, forked from:
+#
 # Fedora spec file for php-pecl-apcu-bc
 # without SCL compatibility, from
 #
@@ -20,26 +22,27 @@
 %global with_zts   0%{!?_without_zts:%{?__ztsphp:1}}
 # After 40-apcu.ini
 %global ini_name   50-%{ext_name}.ini
+%global php        php73
 
-Name:           php-pecl-%{pecl_name}
+Name:           %{php}-pecl-%{pecl_name}
 Summary:        APCu Backwards Compatibility Module
 Version:        1.0.5
-Release:        1%{?dist}
-Source0:        http://pecl.php.net/get/%{proj_name}-%{version}.tgz
+Release:        2%{?dist}
+Source0:        https://pecl.php.net/get/%{proj_name}-%{version}.tgz
 
 License:        PHP
-URL:            http://pecl.php.net/package/APCu
+URL:            https://pecl.php.net/package/APCu
 
 BuildRequires:  gcc
-BuildRequires:  php-devel > 7
-BuildRequires:  php-pear
-BuildRequires:  php-pecl-apcu-devel >= 5.1.2
+BuildRequires:  %{php}-devel
+# build require pear1's dependencies to avoid mismatched php stacks
+BuildRequires:  pear1 %{php}-cli %{php}-common %{php}-xml
+BuildRequires:  %{php}-pecl-apcu-devel >= 5.1.2
 
 Requires:       php(zend-abi) = %{php_zend_api}
 Requires:       php(api) = %{php_core_api}
-Requires:       php-pecl-apcu%{?_isa} >= 5.1.2
+Requires:       %{php}-pecl-apcu%{?_isa} >= 5.1.2
 
-Obsoletes:      php-pecl-apc              < 4
 Provides:       php-apc                   = %{apcver}
 Provides:       php-apc%{?_isa}           = %{apcver}
 Provides:       php-pecl-apc              = %{apcver}-%{release}
@@ -48,6 +51,11 @@ Provides:       php-pecl(APC)             = %{apcver}
 Provides:       php-pecl(APC)%{?_isa}     = %{apcver}
 Provides:       php-pecl(%{proj_name})         = %{version}
 Provides:       php-pecl(%{proj_name})%{?_isa} = %{version}
+
+# safe replacement
+Provides:       php-pecl-%{pecl_name} = %{version}-%{release}
+Provides:       php-pecl-%{pecl_name}%{?_isa} = %{version}-%{release}
+Conflicts:      php-pecl-%{pecl_name} < %{version}-%{release}
 
 
 %description
@@ -91,7 +99,7 @@ cd NTS
 %configure \
    --enable-apcu-bc \
    --with-php-config=%{_bindir}/php-config
-make %{?_smp_mflags}
+%make_build
 
 %if %{with_zts}
 cd ../ZTS
@@ -99,7 +107,7 @@ cd ../ZTS
 %configure \
    --enable-apcu-bc \
    --with-php-config=%{_bindir}/zts-php-config
-make %{?_smp_mflags}
+%make_build
 %endif
 
 
@@ -115,7 +123,7 @@ install -D -m 644 %{ini_name} %{buildroot}%{php_ztsinidir}/%{ini_name}
 %endif
 
 # Install the package XML file
-install -D -m 644 package.xml %{buildroot}%{pecl_xmldir}/%{name}.xml
+install -D -m 644 package.xml %{buildroot}%{pecl_xmldir}/%{proj_name}.xml
 
 # Documentation
 for i in $(grep 'role="doc"' package.xml | sed -e 's/^.*name="//;s/".*$//')
@@ -136,7 +144,7 @@ TEST_PHP_EXECUTABLE=%{__php} \
 TEST_PHP_ARGS="-n -d extension=apcu.so -d extension=%{buildroot}%{php_extdir}/apc.so" \
 NO_INTERACTION=1 \
 REPORT_EXIT_STATUS=1 \
-%{_bindir}/php -n run-tests.php --show-diff
+%{__php} -n run-tests.php --show-diff
 
 %if %{with_zts}
 cd ../ZTS
@@ -154,10 +162,28 @@ REPORT_EXIT_STATUS=1 \
 %endif
 
 
+%triggerin -- pear1
+if [ -x %{__pecl} ]; then
+    %{pecl_install} %{pecl_xmldir}/%{proj_name}.xml >/dev/null || :
+fi
+
+
+%posttrans
+if [ -x %{__pecl} ]; then
+    %{pecl_install} %{pecl_xmldir}/%{proj_name}.xml >/dev/null || :
+fi
+
+
+%postun
+if [ $1 -eq 0 -a -x %{__pecl} ]; then
+    %{pecl_uninstall} %{proj_name} >/dev/null || :
+fi
+
+
 %files
 %license NTS/LICENSE
 %doc %{pecl_docdir}/%{proj_name}
-%{pecl_xmldir}/%{name}.xml
+%{pecl_xmldir}/%{proj_name}.xml
 
 %config(noreplace) %{php_inidir}/%{ini_name}
 %{php_extdir}/apc.so
@@ -169,6 +195,9 @@ REPORT_EXIT_STATUS=1 \
 
 
 %changelog
+* Tue May 28 2019 Carl George <carl@george.computer> - 1.0.5-2
+- Port from Fedora to IUS
+
 * Wed Feb 20 2019 Remi Collet <remi@remirepo.net> - 1.0.5-1
 - update to 1.0.5
 
